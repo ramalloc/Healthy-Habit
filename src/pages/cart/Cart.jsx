@@ -46,7 +46,7 @@ function Cart() {
 
   /**========================================================================
    *!                           Payment Intigration
-   *========================================================================**/ 
+   *========================================================================**/
 
   const [name, setName] = useState("")
   const [address, setAddress] = useState("");
@@ -82,55 +82,72 @@ function Cart() {
       )
     }
 
-    var options = {
-      key: "",
-      key_secret: "",
-      amount: parseInt(grandTotal * 100),
-      currency: "INR",
-      order_receipt: 'order_rcptid_' + name,
-      name: "E-Bharat",
-      description: "for testing purpose",
-      handler: function (response) {
-        console.log(response)
-        toast.success('Payment Successful')
+    // var options = {
+    //   key: "rzp_test_ORuBKYs5ZQyDm1",
+    //   key_secret: "YaXeltu21ntC0lRtLOYGZUm1",
+    //   amount: parseInt(grandTotal * 100),
+    //   currency: "INR",
+    //   order_receipt: 'order_rcptid_' + name,
+    //   name: "Healthy-Habit",
+    //   description: "Not In Use For Customers",
+    //   handler: function (response) {
+    //     console.log(response)
+    //     toast.success('Payment Successful')
 
-        const paymentId = response.razorpay_payment_id;
+    //     const paymentId = response.razorpay_payment_id;
 
-        const orderInfo = {
-          cartItems,
-          addressInfo,
-          date: new Date().toLocaleString(
-            "en-US",
-            {
-              month: "short",
-              day: "2-digit",
-              year: "numeric",
-            }
-          ),
-          email: JSON.parse(localStorage.getItem("user")).user.email,
-          userid: JSON.parse(localStorage.getItem("user")).user.uid,
-          paymentId
+    //     const orderInfo = {
+    //       cartItems,
+    //       addressInfo,
+    //       date: new Date().toLocaleString(
+    //         "en-US",
+    //         {
+    //           month: "short",
+    //           day: "2-digit",
+    //           year: "numeric",
+    //         }
+    //       ),
+    //       email: JSON.parse(localStorage.getItem("user")).user.email,
+    //       userid: JSON.parse(localStorage.getItem("user")).user.uid,
+    //       paymentId
+    //     }
+
+    //     try {
+
+    //       const orderRef = collection(fireDB, 'order');
+    //       addDoc(orderRef, orderInfo);
+
+    //     } catch (error) {
+    //       console.log(error)
+    //     }
+    //   },
+
+    //   theme: {
+    //     color: "#3399cc"
+    //   }
+    // };
+
+    // var pay = new window.Razorpay(options);
+    // pay.open();
+    // console.log(pay)
+
+    const orderInfoWithoutRazor = {
+      cartItems,
+      addressInfo,
+      date: new Date().toLocaleString(
+        "en-US",
+        {
+          month: "short",
+          day: "2-digit",
+          year: "numeric",
         }
+      ),
+      email: JSON.parse(localStorage.getItem("user")).user.email,
+      userid: JSON.parse(localStorage.getItem("user")).user.uid,
+    }
 
-        try {
-
-          const orderRef = collection(fireDB, 'order');
-          addDoc(orderRef, orderInfo);
-
-        } catch (error) {
-          console.log(error)
-        }
-      },
-
-      theme: {
-        color: "#3399cc"
-      }
-    };
-
-    var pay = new window.Razorpay(options);
-    pay.open();
-    console.log(pay)
-
+    const orderRef = collection(fireDB, 'order');
+    addDoc(orderRef, orderInfoWithoutRazor);
 
   }
   return (
