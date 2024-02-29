@@ -9,21 +9,20 @@ const Carousel = () => {
   const sliderRef = useRef(null);
 
   useEffect(() => {
-    // Access the slider instance and modify its behavior
-    if (sliderRef.current) {
-      // For example, pause the autoplay on mouse hover
-      sliderRef.current.slickPause();
-
-      // Resume autoplay when mouse leaves the carousel
-      const handleMouseLeave = () => {
+    const handleMouseLeave = () => {
+      if (sliderRef.current) {
         sliderRef.current.slickPlay();
-      };
+      }
+    };
 
+    if (sliderRef.current) {
+      sliderRef.current.slickPause();
       sliderRef.current.innerSlider.list.addEventListener('mouseleave', handleMouseLeave);
 
       return () => {
-        // Cleanup event listener to avoid memory leaks
-        sliderRef.current.innerSlider.list.removeEventListener('mouseleave', handleMouseLeave);
+        if (sliderRef.current) {
+          sliderRef.current.innerSlider.list.removeEventListener('mouseleave', handleMouseLeave);
+        }
       };
     }
   }, []);
@@ -37,10 +36,10 @@ const Carousel = () => {
     arrows: true,
     autoplay: true,
     autoplaySpeed: 3000,
-    adaptiveHeight: true, // Adjust slide height based on content
-    cssEase: 'linear', // Enable smoother transition
-    // Set the height of the carousel to 100vh (full screen height)
-    height: '100vh',
+    adaptiveHeight: true,
+    cssEase: 'linear',
+    // Set the height of the carousel to 80vh (80% of the viewport height)
+    height: '80vh',
   };
 
   const images = [
@@ -70,7 +69,7 @@ const Carousel = () => {
         {images.map(image => (
           <div key={image.id}>
             <Link to={image.link}>
-              <img src={image.src} alt={image.alt} className="carousel-image" style={{ width: '100%', height: '80vh', objectFit: 'cover' }} />
+              <img src={image.src} alt={image.alt} className="carousel-image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </Link>
           </div>
         ))}
