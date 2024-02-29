@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 
@@ -7,24 +7,32 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const Carousel = () => {
   const sliderRef = useRef(null);
+  const [carouselHeight, setCarouselHeight] = useState('80vh'); // Initial height
 
   useEffect(() => {
-    const handleMouseLeave = () => {
+    const calculateCarouselHeight = () => {
       if (sliderRef.current) {
-        sliderRef.current.slickPlay();
+        const firstImage = sliderRef.current.innerSlider.list.querySelector('.carousel-image');
+        if (firstImage) {
+          const { naturalWidth, naturalHeight } = firstImage;
+          const aspectRatio = naturalWidth / naturalHeight;
+          const newHeight = `${window.innerWidth / aspectRatio}px`; // Adjusted height based on aspect ratio and viewport width
+          const maxHeight = Math.min(window.innerHeight * 0.8, parseFloat(newHeight)); // Set a maximum height relative to the viewport height
+          setCarouselHeight(`${maxHeight}px`);
+        }
       }
     };
 
-    if (sliderRef.current) {
-      sliderRef.current.slickPause();
-      sliderRef.current.innerSlider.list.addEventListener('mouseleave', handleMouseLeave);
+    const handleResize = () => {
+      calculateCarouselHeight();
+    };
+    window.addEventListener('resize', handleResize);
 
-      return () => {
-        if (sliderRef.current) {
-          sliderRef.current.innerSlider.list.removeEventListener('mouseleave', handleMouseLeave);
-        }
-      };
-    }
+    calculateCarouselHeight();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const settings = {
@@ -38,8 +46,7 @@ const Carousel = () => {
     autoplaySpeed: 3000,
     adaptiveHeight: true,
     cssEase: 'linear',
-    // Set the height of the carousel to 80vh (80% of the viewport height)
-    height: '80vh',
+    height: carouselHeight,
   };
 
   const images = [
@@ -64,12 +71,17 @@ const Carousel = () => {
   ];
 
   return (
-    <div className="carousel-container">
+    <div className="carousel-container" style={{ maxHeight: '80vh', overflow: 'hidden' }}>
       <Slider ref={sliderRef} {...settings} className="carousel-slider">
         {images.map(image => (
           <div key={image.id}>
             <Link to={image.link}>
-              <img src={image.src} alt={image.alt} className="carousel-image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="carousel-image"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
             </Link>
           </div>
         ))}
