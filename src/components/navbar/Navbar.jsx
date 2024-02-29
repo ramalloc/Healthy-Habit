@@ -1,28 +1,24 @@
-import React, { Fragment, useContext, useState } from 'react'
-import myContext from '../../context/data/myContext';
-import { BsFillCloudSunFill } from 'react-icons/bs'
-import { FiSun } from 'react-icons/fi'
+import React, { Fragment, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react'
-import { RxCross2 } from 'react-icons/rx'
+import { Dialog, Transition } from '@headlessui/react';
+import { BsFillCloudSunFill } from 'react-icons/bs';
+import { FiSun } from 'react-icons/fi';
+import { RxCross2 } from 'react-icons/rx';
 import { useSelector } from 'react-redux';
+import myContext from '../../context/data/myContext';
 
 function Navbar() {
   const context = useContext(myContext);
   const { mode, toggleMode } = context;
 
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
-
-  // console.log(user.user.email)
+  const cartItems = useSelector((state) => state.cart);
 
   const logout = () => {
-    localStorage.clear('user');
-    window.location.href = '/login'
-  }
-
-  const cartItems = useSelector((state) => state.cart)
+    localStorage.clear();
+    window.location.href = '/login';
+  };
 
   return (
     <div className='bg-white sticky top-0 z-50'>
@@ -63,7 +59,7 @@ function Navbar() {
                 </div>
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
 
-                  <Link to={'/allproducts'} className="text-sm font-medium text-gray-900 " style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  <Link to={'/all-products'} className="text-sm font-medium text-gray-900 " style={{ color: mode === 'dark' ? 'white' : '', }}>
                     All Products
                   </Link>
 
@@ -75,7 +71,7 @@ function Navbar() {
 
                   {user?.user?.email === "one@gmail.com" ? <div className="flow-root">
                     <Link to={'/dashboard'} className="-m-2 block p-2 font-medium text-gray-900" style={{ color: mode === 'dark' ? 'white' : '', }}>
-                      admin
+                      Admin
                     </Link>
                   </div> : ""}
                   {user ? <div className="flow-root">

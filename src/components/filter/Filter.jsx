@@ -1,14 +1,19 @@
-import React, { useContext } from 'react'
-import myContext from '../../context/data/myContext'
+import React, { useContext } from 'react';
+import myContext from '../../context/data/myContext';
 
 function Filter() {
-    const context = useContext(myContext)
-    const { mode, searchkey, setSearchkey, filterType, setFilterType,
-        filterPrice, setFilterPrice, product } = context
+    const context = useContext(myContext);
+    const { mode, searchkey, setSearchkey, filterType, setFilterType, filterPrice, setFilterPrice, product } = context;
+
+    // Extract unique categories from products
+    const uniqueCategories = [...new Set(product.map(item => item.category))];
+
+    // Extract unique prices from products
+    const uniquePrices = [...new Set(product.map(item => item.price))];
 
     return (
         <div>
-            <div className=' container mx-auto px-4 mt-5 '>
+            <div className='container mx-auto px-4 mt-5'>
                 <div className="p-5 rounded-lg bg-gray-100 drop-shadow-xl border border-gray-200"
                     style={{
                         backgroundColor: mode === 'dark' ? '#282c34' : '',
@@ -39,22 +44,16 @@ function Filter() {
                     </div>
                     <div>
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
-                            <select value={filterType} onChange={(e)=> setFilterType(e.target.value)} className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0 focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" style={{ backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : '', }}>
-
-                                {product.map((item, index) => {
-                                    return (
-                                        <option value={item.category}>{item.category}</option>
-                                    )
-                                })}
+                            <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0 focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" style={{ backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : '', }}>
+                                {uniqueCategories.map((category, index) => (
+                                    <option key={index} value={category}>{category}</option>
+                                ))}
                             </select>
-                            <select value={filterPrice} onChange={(e)=>setFilterPrice(e.target.value)} className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0  focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" style={{ backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : '', }}>
-                                {product.map((item, index) => {
-                                    return (
-                                        <option value={item.price}>{item.price}</option>
-                                    )
-                                })}
+                            <select value={filterPrice} onChange={(e) => setFilterPrice(e.target.value)} className="px-4 py-3 w-full rounded-md bg-gray-50 border-transparent outline-0  focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" style={{ backgroundColor: mode === 'dark' ? 'rgb(64 66 70)' : '', color: mode === 'dark' ? 'white' : '', }}>
+                                {uniquePrices.map((price, index) => (
+                                    <option key={index} value={price}>{price}</option>
+                                ))}
                             </select>
-
                         </div>
                     </div>
                 </div>

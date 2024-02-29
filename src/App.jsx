@@ -21,6 +21,18 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Allproducts from './pages/allproducts/Allproducts';
 import ContactUs from './pages/contactUs/ContactUs';
+import HydrolizedProtein from './pages/ProductPages/HydrolizedProtein';
+import IsolateProtein from './pages/ProductPages/IsolateProtein';
+import Gainer from './pages/ProductPages/Gainer';
+import MultiVitamin from './pages/ProductPages/MultiVitamin';
+import PreWorkout from './pages/ProductPages/PreWorkout';
+import TestosteroneBooster from './pages/ProductPages/TestosteroneBooster';
+import WheyProtein from './pages/ProductPages/WheyProtein';
+import FishOil from './pages/ProductPages/FishOil';
+import FatBurner from './pages/ProductPages/FatBurner';
+import EAA from './pages/ProductPages/EAA';
+import Caffeine from './pages/ProductPages/Caffeine';
+import BCAA from './pages/ProductPages/BCAA';
 function App() {
   return (
     <MyState>
@@ -29,6 +41,18 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/allproducts" element={<Allproducts />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/category/hydrolized-protein" element={<HydrolizedProtein />} />
+          <Route path="/category/isolate-protein" element={<IsolateProtein />} />
+          <Route path="/category/gainer" element={<Gainer />} />
+          <Route path="/category/multi-vitamin" element={<MultiVitamin />} />
+          <Route path="/category/pre-workout" element={<PreWorkout />} />
+          <Route path="/category/testosterone-booster" element={<TestosteroneBooster />} />
+          <Route path="/category/whey-protein" element={<WheyProtein />} />
+          <Route path="/category/fish-oil" element={<FishOil />} />
+          <Route path="/category/fat-burner" element={<FatBurner />} />
+          <Route path="/category/eaa" element={<EAA />} />
+          <Route path="/category/caffeine" element={<Caffeine />} />
+          <Route path="/category/bcaa" element={<BCAA />} />
           <Route path="/order" element={
             <ProtectedRoute>
               <Order />

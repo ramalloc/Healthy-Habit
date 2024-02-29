@@ -58,10 +58,6 @@ function ProductCard() {
                             </div>
                         )
                     })}
-
-
-
-
                 </div>
 
             </div>
