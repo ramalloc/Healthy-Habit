@@ -58,7 +58,7 @@ const Carousel = () => {
     },
     {
       id: 3,
-      src: 'https://shorturl.at/kELY0',
+      src: 'https://shorturl.at/ehiH3',
       alt: 'Image 3',
       link: '/allProducts'
     }
